@@ -1,0 +1,20 @@
+/**
+* created by VIKAS SINGH
+* on 22 JAN 2016
+* Here only method implementation is shown not whole program
+* Task is to reverse elements of SLL IN PLACE
+*/
+
+public void reverseSLL() {
+  Node curr = head;
+  Node ahead = head.next;
+  Node temp = null;
+  
+  curr.next = null;   // Since this will be our last element in SLL
+  while(ahead != null) {
+    temp = ahead.next;
+    ahead.next = curr;
+    head = curr = ahead;
+    ahead = temp;
+  }
+}  
