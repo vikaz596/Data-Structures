@@ -43,7 +43,7 @@ public class SLL {
 	
 	public void delete(int value) {
 		SLLNode temp = head;
-		if(temp.data == value) {
+		if(temp.data == value) {  // If first value matches
 			head = temp.next;
 			return;
 		}
