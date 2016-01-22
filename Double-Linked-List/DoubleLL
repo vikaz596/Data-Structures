@@ -1,0 +1,143 @@
+/**
+* created by VIKAS SINGH
+* on 22 JAN 2016
+* Basic implementation of Doubly Linked List
+* Code here is poorly written but it can do the job of basic learning and practise
+* Reverse method is also implemented here with constant extra space and single traversal of DLL
+*/
+
+class DLLNode {
+	int val;
+	DLLNode next;
+	DLLNode prev;
+	
+	public DLLNode() {
+		this.val = 0;
+		this.next = null;
+		this.prev = null;
+	}
+
+	public DLLNode(int val) {
+		this.val = val;
+		this.next = null;
+		this.prev = null;
+	}
+}
+
+class Test5 {
+	DLLNode head = null;
+		
+	public Test5() { }
+		
+	public Test5(int a) {
+		head = new DLLNode(a);
+		// head.prev = null;  this is done automatically in Constructor
+		// head.next = null;
+	}
+		
+	public void insert(int a) {
+		if(head == null) {
+			head = new DLLNode(a);
+		}
+
+		else {
+			DLLNode temp = new DLLNode(a);
+			DLLNode temp2 = head;
+			while(temp2.next != null) {
+				temp2 = temp2.next;
+			}
+			temp2.next = temp;
+			temp.prev = temp2;
+		}
+	}
+
+	public void print() {
+		DLLNode temp = head;
+		while(temp != null) {
+			System.out.print(temp.val + "->");
+			temp = temp.next;
+		}
+		System.out.println("");
+			
+		temp=head;
+		
+		while(temp.next != null)
+			temp = temp.next;
+				
+		
+		while(temp != null) {
+			System.out.print(temp.val + "->");
+			temp = temp.prev;
+		}
+		System.out.println(""); 
+	}
+	
+	public void delete(int a) {
+		if(head.val==a) {  // match found first node
+			if(head.next == null)  // only 1 element
+				head = null;
+			
+			else {  // more than 1 element in DLL
+				(head.next).prev = null;
+				head = head.next;
+			}	
+		}		
+		
+		else {
+			DLLNode temp = head;
+			while(temp.val != a) {
+				temp = temp.next;
+			}
+			
+			if(temp != null && temp.next == null) //match found and last node
+				(temp.prev).next = null;
+				
+			if(temp != null && temp.next != null) { // match found and not last node
+				(temp.prev).next = temp.next;
+				(temp.next).prev = temp.prev;
+			}
+		}
+	}
+
+	public void reverse() {
+		DLLNode t1=null,t2=null;
+		t1=head;
+		while(t1 != null) {
+			t2 = t1.next;
+			t1.next = t1.prev;
+			t1.prev = t2;
+			
+			head = t1;
+			t1 = t1.prev;
+		}
+	}
+			
+			
+	
+	public static void main(String args[]) {
+		Test5 obj = new Test5(1);
+		obj.insert(2);
+		obj.insert(3);
+		obj.insert(4);
+		obj.insert(5);
+		obj.insert(6);
+		obj.insert(7);
+		obj.print();
+		
+		System.out.println("Deleting 1");
+		obj.delete(1);
+		obj.print();
+	
+		System.out.println("Deleting 7");
+		obj.delete(7);
+		obj.print();
+
+		System.out.println("Deleting 4");
+		obj.delete(4);
+		obj.print();
+
+		System.out.println("Now reversing");
+		obj.reverse();
+		obj.print();
+	}
+}
