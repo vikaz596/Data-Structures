@@ -2,7 +2,7 @@
 * created by VIKAS SINGH
 * on 22 JAN 2016
 * Here only method implementation is shown not whole program
-* Task is to reverse elements of SLL IN PLACE
+* Task is to reverse elements of SLL IN PLACE using constant space
 */
 
 public void reverseSLL() {
