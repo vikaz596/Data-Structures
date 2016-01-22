@@ -1,0 +1,18 @@
+/**
+* created by VIKAS SINGH
+* on 22 JAN 2016
+* Only method code is shown not whole program
+* Task is to print alternate elements of SLL
+*/
+
+public void alternate() {
+  Node temp = head;
+  while(temp != null) {
+    System.out.println(temp.data + " ");
+    temp = temp.next;
+    
+    if(temp!=null)
+      temp = temp.next;
+  }
+}  
+  
