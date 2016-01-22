@@ -1,0 +1,21 @@
+/**
+* created by VIKAS SINGH
+* on 22 JAN 2016
+* Here only the method code is shown not the whole program
+* Task is to return the mid element of SLL
+*/
+
+public int midElement() {
+  Node slow = head;
+  Node fast = head;
+  while(fast!=null) {
+    fast = fast.next;
+    
+    if(fast!=null) {
+      fast = fast.next;
+      slow = slow.next;
+    }
+  }
+  
+  return slow.data;
+}  
