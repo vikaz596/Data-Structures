@@ -1,0 +1,105 @@
+import java.util.Scanner;
+
+/**
+* created by VIKAS SINGH
+* on 22 JAN 2016
+*/
+
+class SLLNode {
+	int data;
+	SLLNode next;
+
+	public SLLNode(int data) {
+		this.data = data;
+		next = null;
+	}	
+}
+
+public class SLL {
+	SLLNode head;
+	
+	public SLL(int data) {
+		SLLNode temp = new SLLNode(data);
+		head = temp;
+	}
+	
+	public void printSLL() {
+		SLLNode temp = head;
+		while(temp!=null) {
+			System.out.print(temp.data + " ");
+			temp = temp.next;
+		}
+		System.out.println("");
+	}
+	
+	public void insert(int data) {
+		SLLNode temp = new SLLNode(data);
+		SLLNode curr = head;
+		while(curr.next != null) 
+			curr = curr.next;
+		
+		curr.next = temp;
+	}
+	
+	public void delete(int value) {
+		SLLNode temp = head;
+		if(temp.data == value) {
+			head = temp.next;
+			return;
+		}
+		
+		SLLNode prev = temp;
+		temp = temp.next;
+		while(temp != null) {
+			if(temp.data == value) {
+				prev.next = temp.next;
+				return;
+			}
+			prev = temp;
+			temp = temp.next;
+		}
+		
+		System.out.println("Element not found in SLL");
+		return;	
+	}
+	
+	public static void main(String args[]) {
+		Scanner stdin = new Scanner(System.in);
+		System.out.println("Enter a number with which u want to start ur SLL");
+		int n = stdin.nextInt();
+		SLL myLL = new SLL(n);
+		
+		char ch;
+		int x=0;
+		
+		do {
+			System.out.println("SLL Operations");
+			System.out.println("1 . Insert");
+			System.out.println("2 . Remove");
+			System.out.println("3 . Print");
+			
+			int choice = stdin.nextInt();
+			switch(choice) {
+				case 1 :  System.out.println("Enter element to insert");
+						  x = stdin.nextInt();
+						  myLL.insert(x);
+						  break;
+						  
+				case 2 :  System.out.println("Enter element to remove");
+						  x = stdin.nextInt();
+						  myLL.delete(x);
+						  break;
+
+				case 3 :  myLL.printSLL();
+						  break;
+						  
+				default : System.out.println("Wrong Entry");
+						  break;
+			}
+	
+			System.out.println("Do you want to continue : y | n");
+			ch = stdin.next().charAt(0);
+		} while(ch=='y' || ch=='Y');
+		
+	}
+}
