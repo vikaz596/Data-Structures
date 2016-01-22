@@ -1,0 +1,24 @@
+/**
+* created by VIKAS SINGH
+* on 22 JAN 2016
+* Only method implementation is given not whole program
+* Task here is to return sum of element of two numbers formed by two LL.
+* Example : 5->6->7          3->5->1 
+* then method should return 567 + 351
+*/
+
+public int add(SLLNode temp2) {
+	SLLNode temp1 = this.head;
+	String s1="";
+	while(temp1 != null) {
+		s1 = s1+temp1.data;
+		temp1 = temp1.next;
+	}
+	String s2="";
+	while(temp2 != null) {
+		s2 = s2+temp2.data;
+		temp2 = temp2.next;
+	}
+		
+	return (Integer.parseInt(s1) + Integer.parseInt(s2));
+}
