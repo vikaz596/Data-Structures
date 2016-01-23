@@ -1,0 +1,104 @@
+import java.util.Scanner;
+
+/**
+* created by VIKAS SINGH
+* on 23 JAN 2016
+* Basic Implementation of Queue using SLL
+*/
+
+class Node {
+	int data;
+	Node next;
+	
+	public Node(int data) {
+		this.data = data;
+		next = null;
+	}
+}
+
+public class Queue {
+	Node front;
+	Node rear;
+	
+	public Queue(int data) {
+		Node temp = new Node(data);
+		rear = front = temp;
+	}
+	
+	public void enqueue(int data) {
+		if(front == null) {
+			Node temp = new Node(data);
+			rear = front = temp;
+			return;
+		}
+		
+		Node temp = new Node(data);
+		rear.next = temp;
+		rear = temp;
+	}
+	
+	public int dequeue() {
+		if(front==null)
+			return -1;
+		
+		int x = front.data;
+		front = front.next;
+		return x;
+	}
+	
+	public int peek() {
+		return rear.data;
+	}
+	
+	public void print() {
+		Node temp = front;
+		while(temp!=null) {
+			System.out.print(temp.data +" ");
+			temp = temp.next;
+		}
+		System.out.println("");
+	}
+	
+	public static void main(String args[]) {
+		Scanner stdin = new Scanner(System.in);
+		System.out.println("Enter a number with which you want to start ur Queue");
+		int n = stdin.nextInt();
+		Queue myQueue = new Queue(n);
+		
+		char ch;
+		int x=0;
+		
+		do {
+			System.out.println("Queue Operations");
+			System.out.println("1 . Enqueue");
+			System.out.println("2 . Dequeue");
+			System.out.println("3 . Peek");
+			System.out.println("4 . Print");
+			
+			int choice = stdin.nextInt();
+			switch(choice) {
+				case 1 :  System.out.println("Enter element to insert");
+						  x = stdin.nextInt();
+						  myQueue.enqueue(x);
+						  break;
+						  
+				case 2 :  myQueue.dequeue();
+						  break;
+						  
+				case 3 :  System.out.println("Peeked value : " + myQueue.peek());
+						  break;
+
+				case 4 :  myQueue.print();
+						  break;
+						  
+				default : System.out.println("Wrong Entry");
+						  break;
+			}
+	
+			System.out.println("Do you want to continue : y | n");
+			ch = stdin.next().charAt(0);
+		} while(ch=='y' || ch=='Y');
+		
+		stdin.close();
+	}
+}	
