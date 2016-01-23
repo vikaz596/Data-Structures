@@ -1,0 +1,104 @@
+import java.util.Scanner;
+
+/**
+* created by VIKAS SINGH
+* on 23 JAN 2016
+* basic implementation of Stack using SLL
+*/
+
+class Node {
+	int data;
+	Node next;
+	
+	public Node(int data) {
+		this.data = data;
+		next = null;
+	}
+}
+
+public class Stack {
+	Node top;
+	
+	public Stack(int data) {
+		Node temp = new Node(data);
+		top = temp;
+	}
+	
+	public void push(int data) {
+		if(top == null) {
+			Node temp = new Node(data);
+			top = temp;
+			return;
+		}
+		
+		Node temp = new Node(data);
+		temp.next = top;
+		top = temp;
+	}
+	
+	public int pop() {
+		if(top==null)
+			return -1;
+		
+		int x = top.data;
+		top = top.next;
+		return x;
+	}
+	
+	public int peek() {
+		return top.data;
+	}
+	
+	public void print() {
+		Node temp = top;
+		while(temp!=null) {
+			System.out.print(temp.data +" ");
+			temp = temp.next;
+		}
+		System.out.println("");
+	}
+	
+	public static void main(String args[]) {
+		Scanner stdin = new Scanner(System.in);
+		System.out.println("Enter a number with which you want to start ur stack");
+		int n = stdin.nextInt();
+		Stack myStack = new Stack(n);
+		
+		char ch;
+		int x=0;
+		
+		do {
+			System.out.println("Stack Operations");
+			System.out.println("1 . Push");
+			System.out.println("2 . Pop");
+			System.out.println("3 . Peek");
+			System.out.println("4 . Print");
+			
+			int choice = stdin.nextInt();
+			switch(choice) {
+				case 1 :  System.out.println("Enter element to insert");
+						  x = stdin.nextInt();
+						  myStack.push(x);
+						  break;
+						  
+				case 2 :  x = stdin.nextInt();
+						  myStack.pop();
+						  break;
+						  
+				case 3 :  System.out.println("Peeked value : " + myStack.peek());
+						  break;
+
+				case 4 :  myStack.print();
+						  break;
+						  
+				default : System.out.println("Wrong Entry");
+						  break;
+			}
+	
+			System.out.println("Do you want to continue : y | n");
+			ch = stdin.next().charAt(0);
+		} while(ch=='y' || ch=='Y');
+		
+		stdin.close();
+	}
+}	
