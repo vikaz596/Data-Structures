@@ -1,0 +1,209 @@
+import java.util.Scanner;
+
+/**
+* created by VIKAS SINGH
+* on 24 JAN 2016
+* basic implementation of BST using recursive methods
+* Methods implemented :  insert, search, delete, isEmpty, print inorder
+*/
+
+class Node {
+	int data;
+	Node left;
+	Node right;
+	
+	public Node(int data){
+		this.data = data;
+		left = null;
+		right = null;
+	}
+}
+
+public class BST {
+	Node root;
+	
+	public BST(int data) {
+		root = new Node(data);
+	}
+	
+	public void insert(int data) {
+		insert(root,data);
+	}
+	
+	private void insert(Node temp, int data) {
+		if(temp == null) {
+			temp = new Node(data);
+			return;
+		}	
+		
+		if(data<=temp.data && temp.left==null) { // Place found , insert here
+			temp.left = new Node(data);
+			return;
+		}	
+		
+		if(data>temp.data && temp.right==null) { // Place found , insert here
+			temp.right = new Node(data);
+			return;
+		}	
+		
+		if(data<=temp.data && temp.left != null) { // Place not found , continue search
+			insert(temp.left,data);
+			return;
+		}
+
+		if(data>temp.data && temp.right!=null) { // Place not found , continue search
+			insert(temp.right,data);
+			return;
+		}	
+	}
+	
+	public void delete(int k) {
+        if (isEmpty())
+            System.out.println("Tree Empty");
+        
+		else if (search(k) == false)
+            System.out.println(k + " is not present");
+        
+		else {
+            root = delete(root, k);
+            System.out.println(k+ " deleted from the tree");
+        }
+    }
+	
+	private Node delete(Node temp, int data) {
+		if(temp == null)
+			return null;
+		
+		if(data<temp.data)
+			temp.left = delete(temp.left,data);
+		
+		else if(data>temp.data)
+			temp.right = delete(temp.right,data);
+		
+		else {  // now only case left is temp.val == a
+			if(temp.left==null && temp.right==null) 
+				return null;
+			
+			else if(temp.left==null && temp.right!=null){
+				temp = temp.right;
+				//return null;
+			}
+			
+			else if(temp.left!=null && temp.right==null) {
+				temp = temp.left;
+				//return null;
+			}	
+			
+			else {   // both not null
+				Node curr = inorderSuccessor(temp.right);
+				temp.data = curr.data;
+				temp.right = delete(temp.right,curr.data);
+			}			
+		}
+		
+		return temp;
+	}
+	
+	public Node inorderSuccessor(Node temp) {  // helper function of delete method
+		if(temp==null) 						   // this case will never occur becoz it is already insured node had both childs
+			return null;
+			
+		while(temp.left != null)  			   // kisi bhi node ka inorder successor uska left most child hota hai
+			temp = temp.left;
+			
+		return temp;
+	}
+	
+	public void printInorder() {
+		printInorder(root);
+	}
+	
+	public void printInorder(Node temp) {
+		if(temp!=null) {
+			printInorder(temp.left);
+			System.out.print(temp.data + " ");
+			printInorder(temp.right);
+		}
+	}
+	
+	public boolean isEmpty() {
+		if(root == null)
+			return true;
+		
+		return false;
+	}
+	
+	public boolean search(int data) {
+		return search(root,data);
+	}
+	
+	private boolean search(Node temp, int data) {
+		if(temp != null) {
+			if(temp.data == data)
+				return true;
+			
+			if(temp.data>data)
+				return search(temp.left,data);
+			
+			if(temp.data<data)
+				return search(temp.right,data);
+		}
+
+		return false;		
+	}
+	
+	public static void main(String args[]) {
+		
+		Scanner scan = new Scanner(System.in);
+       
+	    System.out.println("Enter a number with which you want to initiate your BST");
+		int n = scan.nextInt();
+ 	    
+		/* Creating object of BST */
+        BST bst = new BST(n); 
+        
+		System.out.println("Binary Search Tree Test\n");          
+        char ch;
+        
+		/*  Perform tree operations  */
+        do    
+        {
+            System.out.println("\nBinary Search Tree Operations\n");
+            System.out.println("1. insert ");
+            System.out.println("2. delete");
+            System.out.println("3. search");
+            System.out.println("4. check Empty"); 
+ 
+            int choice = scan.nextInt();            
+            switch (choice) {
+				case 1 : 
+					System.out.println("Enter integer element to insert");
+					bst.insert( scan.nextInt() );                     
+					break;                          
+				case 2 : 
+					System.out.println("Enter integer element to delete");
+					bst.delete( scan.nextInt() );                     
+					break;                         
+				case 3 : 
+					System.out.println("Enter integer element to search");
+					System.out.println("Search result : "+ bst.search( scan.nextInt() ));
+					break;                                          
+				case 4 : 
+					System.out.println("Nodes = "+ bst.isEmpty());
+					break;     
+				default : 
+					System.out.println("Wrong Entry \n ");
+					break;   
+            }
+			
+            /*  Display tree  */ 
+            System.out.print("\nIn order : ");
+            bst.printInorder();
+			System.out.println("");
+ 
+            System.out.println("\nDo you want to continue (Type y or n) \n");
+            ch = scan.next().charAt(0);                        
+        } while (ch == 'Y'|| ch == 'y');
+		
+	}
+}
