@@ -1,0 +1,93 @@
+import java.util.*;
+
+/**
+* created by VIKAS SINGH
+* on 25 JAN 2016
+* BFS and DFS Graph traversal using Queue & Stack
+* Graph is represented as Adjacency Matrix
+*/
+
+class Graph {
+	int adjacencyMatrix[][];   // Graph representation
+	int nVertex;			   // Number of vertex in graph
+	int source;				   // Graph source vertex
+	
+	public Graph(int matrix[][], int nVertex, int source) {
+		adjacencyMatrix = matrix;
+		this.nVertex = nVertex;	// you can either pass nVertex or calculate from matrix[0].length
+		this.source = source;
+	}
+	
+	public void BFS() {
+		Queue<Integer> myQueue = new LinkedList<Integer>();
+		HashMap<Integer,Boolean> hm = new HashMap<Integer,Boolean>();
+		hm.put(source,true);
+		myQueue.add(source);
+		
+		int i=1;
+		int element = 1;
+		while(!myQueue.isEmpty()) {
+			element = myQueue.remove();
+			System.out.print(element + " ");
+			
+			i=1;
+			while(i<=nVertex) {
+				if( adjacencyMatrix[element][i]==1 && (hm.get(i)==null || !hm.get(i)) ) {
+					myQueue.add(i);
+					hm.put(i,true);
+				}
+				i++;
+			}
+		}
+	}
+	
+	public void DFS() {
+		Stack<Integer> myStack = new Stack<Integer>();
+		HashMap<Integer,Boolean> hm = new HashMap<Integer,Boolean>();
+		System.out.print(source + " ");
+		myStack.push(source);
+		hm.put(source,true);
+		
+		int i=1;
+		int element=source;
+		while(!myStack.isEmpty()) {
+			element = myStack.peek();   // get row
+			i = 1;  					// set column
+			while(i<=nVertex) { 		// till all are not marked
+				if( adjacencyMatrix[element][i]==1 && (hm.get(i)==null || !hm.get(i)) ) {
+					myStack.push(i);
+					hm.put(i,true);
+					System.out.print(i + " ");
+					element = i;  // Now this new vertex row
+					i = 1; 		  // Agn set i = 1;
+					continue;
+				}
+				i++;
+			}
+			myStack.pop();	
+		}	
+	}
+	
+	public static void main(String args[]) {
+		Scanner stdin = new Scanner(System.in);
+		System.out.println("Enter number of vertex");
+		int n = stdin.nextInt();
+		System.out.println("Enter source vertex of graph");
+		int s = stdin.nextInt();
+		
+		int arr[][] = new int[n+1][n+1];
+		System.out.println("Enter the adjacency matrix of graph");
+		for(int i=1 ; i<=n ; i++) {
+			for(int j=1 ; j<=n ; j++) {
+				arr[i][j] = stdin.nextInt();
+			}
+		}
+
+		Graph myGraph = new Graph(arr,n,s);
+		myGraph.BFS();	
+		System.out.println("");
+		myGraph.DFS();
+		
+		stdin.close();
+	}
+}
