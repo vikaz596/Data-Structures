@@ -11,6 +11,7 @@ import java.util.Scanner;
 * 4. levelOrder traversal
 * 5. get Height of tree
 * 6. create mirror tree of given tree
+* These methods can be used for both BT or BST
 */
 
 
