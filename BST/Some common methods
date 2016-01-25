@@ -11,9 +11,9 @@ import java.util.Scanner;
 * 4. levelOrder traversal
 * 5. get Height of tree
 * 6. create mirror tree of given tree
+* 7. print all paths
 * These methods can be used for both BT or BST
 */
-
 
 class Node {
 	int data;
@@ -195,6 +195,25 @@ public class BST {
 		}
 	}
 	
+	public void printAllPaths() {
+		String str="";
+		printAllPaths(root,str);
+	}
+
+	private void printAllPaths(Node temp, String str) {
+		if(temp!=null) {
+			str = str + temp.data + " ";
+			
+			if(temp.left==null && temp.right==null)
+				System.out.println(str);
+		
+			else {
+				printAllPaths(temp.left,str);
+				printAllPaths(temp.right,str);
+			}
+		}
+	}	
+	
 	public int getHeight() {
 		return getHeight(root);
 	}
@@ -214,7 +233,7 @@ public class BST {
 	}
 	
 	public boolean isIdentical(Node temp) {
-		return boolean isIdentical(Node root,Node temp);
+		return isIdentical(root,temp);
 	}
 	
 	private boolean isIdentical(Node temp1, Node temp2) {
@@ -226,8 +245,7 @@ public class BST {
 				return true;
 		}	
 		
-		else
-			return false;
+		return false;
 	}
 	
 	/*
@@ -237,12 +255,12 @@ public class BST {
 	*/
 	
 	public boolean isSubtree(Node temp) {
-		return isSubTree(root,temp);
+		return isSubtree(root,temp);
 	}
 	
 	public boolean isSubtree(Node temp1, Node temp2) {
 		if(temp2 == null)
-			true;
+			return true;
 		
 		if(isIdentical(temp1,temp2))
 			return true;
@@ -260,14 +278,18 @@ public class BST {
 	* If inS[] is a subarray of inT[] and preS[] is a subarray preT[], then S is a subtree of T. Else not.
 	*/
 	
-	public Node getMirrorTree(Node temp) {
+	public Node getMirrorTree() {
+		return getMirrorTree(root);
+	}
+	
+	private Node getMirrorTree(Node temp) {
 		if(temp!=null) {
 			Node newTree = new Node(temp.data);
 			newTree.left = getMirrorTree(temp.right);
 			newTree.right = getMirrorTree(temp.left);
 			return newTree;
 		}
-		return null;;
+		return null;
 	}
 	
 	public static void main(String args[]) {
@@ -293,9 +315,7 @@ public class BST {
 			System.out.println("5. print all path sum");	
 			System.out.println("6. Get Height of Tree");
 			System.out.println("7. print level Order traversal of tree");
-			System.out.println("8. Check if 2 trees are identical");
-			System.out.println("9. Check if 2nd tree is subtree of 1st tree");
-			System.out.println("10. get Mirror tree of given tree");
+			System.out.println("8. print all paths");
  
             int choice = scan.nextInt();            
             switch (choice) {
@@ -326,7 +346,12 @@ public class BST {
 					System.out.println("Level Order traversal : ");
 					bst.levelOrder();
 					System.out.println("");
-					break; 			
+					break; 
+				case 8 : 
+					System.out.println("All paths : ");
+					bst.printAllPaths();
+					System.out.println("");
+					break;		
 				default : 
 					System.out.println("Wrong Entry \n ");
 					break;   
@@ -340,6 +365,7 @@ public class BST {
             System.out.println("\nDo you want to continue (Type y or n) \n");
             ch = scan.next().charAt(0);                        
         } while (ch == 'Y'|| ch == 'y');
-		
-	}
+
+	scan.close();
+    }
 }
