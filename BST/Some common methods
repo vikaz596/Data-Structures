@@ -1,0 +1,344 @@
+import java.util.Scanner;
+
+/**
+* created by VIKAS SINGH
+* on 25 JAN 2016
+* Basic implementation of BST using recursive methods
+* Other commonly asked methods are also implemented such as
+* 1. print all path sum
+* 2. Check two tree are identical
+* 3. Check if 2nd tree is subtree of 1st tree
+* 4. levelOrder traversal
+* 5. get Height of tree
+* 6. create mirror tree of given tree
+*/
+
+
+class Node {
+	int data;
+	Node left;
+	Node right;
+	
+	public Node(int data){
+		this.data = data;
+		left = null;
+		right = null;
+	}
+}
+
+public class BST {
+	Node root;
+	
+	public BST(int data) {
+		root = new Node(data);
+	}
+	
+	public void insert(int data) {
+		insert(root,data);
+	}
+	
+	private void insert(Node temp, int data) {
+		if(temp == null) {
+			temp = new Node(data);
+			return;
+		}	
+		
+		if(data<=temp.data && temp.left==null) { // Place found , insert here
+			temp.left = new Node(data);
+			return;
+		}	
+		
+		if(data>temp.data && temp.right==null) { // Place found , insert here
+			temp.right = new Node(data);
+			return;
+		}	
+		
+		if(data<=temp.data && temp.left != null) { // Place not found , continue search
+			insert(temp.left,data);
+			return;
+		}
+
+		if(data>temp.data && temp.right!=null) { // Place not found , continue search
+			insert(temp.right,data);
+			return;
+		}	
+	}
+	
+	public void delete(int k) {
+        if (isEmpty())
+            System.out.println("Tree Empty");
+        
+		else if (search(k) == false)
+            System.out.println(k + " is not present");
+        
+		else {
+            root = delete(root, k);
+            System.out.println(k+ " deleted from the tree");
+        }
+    }
+	
+	private Node delete(Node temp, int data) {
+		if(temp == null)
+			return null;
+		
+		if(data<temp.data)
+			temp.left = delete(temp.left,data);
+		
+		else if(data>temp.data)
+			temp.right = delete(temp.right,data);
+		
+		else {  // now only case left is temp.val == a
+			if(temp.left==null && temp.right==null) 
+				return null;
+			
+			else if(temp.left==null && temp.right!=null){
+				temp = temp.right;
+				//return null;
+			}
+			
+			else if(temp.left!=null && temp.right==null) {
+				temp = temp.left;
+				//return null;
+			}	
+			
+			else {   // both not null
+				Node curr = inorderSuccessor(temp.right);
+				temp.data = curr.data;
+				temp.right = delete(temp.right,curr.data);
+			}			
+		}
+		
+		return temp;
+	}
+	
+	public Node inorderSuccessor(Node temp) {  // helper function of delete method
+		if(temp==null) 						   // this case will never occur becoz it is already insured node had both childs
+			return null;
+			
+		while(temp.left != null)  			   // kisi bhi node ka inorder successor uska left most child hota hai
+			temp = temp.left;
+			
+		return temp;
+	}
+	
+	public void printInorder() {
+		printInorder(root);
+	}
+	
+	public void printInorder(Node temp) {
+		if(temp!=null) {
+			printInorder(temp.left);
+			System.out.print(temp.data + " ");
+			printInorder(temp.right);
+		}
+	}
+	
+	public boolean isEmpty() {
+		if(root == null)
+			return true;
+		
+		return false;
+	}
+	
+	public boolean search(int data) {
+		return search(root,data);
+	}
+	
+	private boolean search(Node temp, int data) {
+		if(temp != null) {
+			if(temp.data == data)
+				return true;
+			
+			if(temp.data>data)
+				return search(temp.left,data);
+			
+			if(temp.data<data)
+				return search(temp.right,data);
+		}
+
+		return false;		
+	}
+	
+	public void printAllPathSum() {
+		int sum=0;
+		printAllPathSum(root,sum);
+	}
+	
+	public void printAllPathSum(Node temp, int sum) {
+		if(temp!=null){
+			sum = sum + temp.data;
+			
+			if(temp.left==null && temp.right==null)
+				System.out.print(sum + " ");
+			
+			else {
+				printAllPathSum(temp.left,sum);
+				printAllPathSum(temp.right,sum);
+			}
+		}		
+	}
+	
+	public void levelOrder(){
+		int height = getHeight(root);
+		for(int i=1 ; i<=height ; i++)
+			levelOrder(root,i);
+	}
+	
+	private void levelOrder(Node temp, int i) {
+		if(temp!=null && i>=1) {
+			levelOrder(temp.left,i-1);
+			if(i==1)
+				System.out.print(temp.data + " ");
+			
+			levelOrder(temp.right,i-1);
+		}
+	}
+	
+	public int getHeight() {
+		return getHeight(root);
+	}
+	
+	private int getHeight(Node temp) {
+		if(temp==null)
+			return 0;
+		
+		return (1 + max(getHeight(temp.left),getHeight(temp.right)));
+	}
+	
+	private int max(int a, int b) {
+		if(a>=b)
+			return a;
+		else
+			return b;
+	}
+	
+	public boolean isIdentical(Node temp) {
+		return boolean isIdentical(Node root,Node temp);
+	}
+	
+	private boolean isIdentical(Node temp1, Node temp2) {
+		if(temp1==null && temp2==null)
+			return true;
+		
+		if(temp1!=null && temp2!=null) { // This will ensure no null pointer exception
+			if(temp1.data==temp2.data && isIdentical(temp1.left,temp2.left) && isIdentical(temp1.right,temp2.right))
+				return true;
+		}	
+		
+		else
+			return false;
+	}
+	
+	/*
+	* Traverse the tree T in preorder fashion.
+	* For every visited node in the traversal,
+	* see if the subtree rooted with this node is identical to S.
+	*/
+	
+	public boolean isSubtree(Node temp) {
+		return isSubTree(root,temp);
+	}
+	
+	public boolean isSubtree(Node temp1, Node temp2) {
+		if(temp2 == null)
+			true;
+		
+		if(isIdentical(temp1,temp2))
+			return true;
+		
+		if(isSubtree(temp1.left,temp2.left) || isSubtree(temp1.right,temp2.right))
+			return true;
+		
+		return false;
+	}
+	
+	/* 
+	* Another way O(n)
+	* Find inorder and preorder traversals of T, store them in two auxiliary arrays inT[] and preT[].
+	* Find inorder and preorder traversals of S, store them in two auxiliary arrays inS[] and preS[].
+	* If inS[] is a subarray of inT[] and preS[] is a subarray preT[], then S is a subtree of T. Else not.
+	*/
+	
+	public Node getMirrorTree(Node temp) {
+		if(temp!=null) {
+			Node newTree = new Node(temp.data);
+			newTree.left = getMirrorTree(temp.right);
+			newTree.right = getMirrorTree(temp.left);
+			return newTree;
+		}
+		return null;;
+	}
+	
+	public static void main(String args[]) {
+		
+		Scanner scan = new Scanner(System.in);
+       
+	    System.out.println("Enter a number with which you want to initiate your BST");
+		int n = scan.nextInt();
+ 	    
+		/* Creating object of BST */
+        BST bst = new BST(n); 
+        
+		System.out.println("Binary Search Tree Test\n");          
+        char ch;
+        
+		/*  Perform tree operations  */
+        do {
+            System.out.println("\nBinary Search Tree Operations\n");
+            System.out.println("1. insert ");
+            System.out.println("2. delete");
+            System.out.println("3. search");
+            System.out.println("4. check Empty");
+			System.out.println("5. print all path sum");	
+			System.out.println("6. Get Height of Tree");
+			System.out.println("7. print level Order traversal of tree");
+			System.out.println("8. Check if 2 trees are identical");
+			System.out.println("9. Check if 2nd tree is subtree of 1st tree");
+			System.out.println("10. get Mirror tree of given tree");
+ 
+            int choice = scan.nextInt();            
+            switch (choice) {
+				case 1 : 
+					System.out.println("Enter integer element to insert");
+					bst.insert( scan.nextInt() );                     
+					break;                          
+				case 2 : 
+					System.out.println("Enter integer element to delete");
+					bst.delete( scan.nextInt() );                     
+					break;                         
+				case 3 : 
+					System.out.println("Enter integer element to search");
+					System.out.println("Search result : "+ bst.search( scan.nextInt() ));
+					break;                                          
+				case 4 : 
+					System.out.println("Nodes = "+ bst.isEmpty());
+					break;
+				case 5 : 
+					System.out.println("All path sum : ");
+					bst.printAllPathSum();
+					System.out.println("");
+					break; 
+				case 6 : 
+					System.out.println("Height of the tree : " + bst.getHeight());
+					break; 
+				case 7 : 
+					System.out.println("Level Order traversal : ");
+					bst.levelOrder();
+					System.out.println("");
+					break; 			
+				default : 
+					System.out.println("Wrong Entry \n ");
+					break;   
+            }
+			
+            /*  Display tree  */ 
+            System.out.print("\nIn order : ");
+            bst.printInorder();
+			System.out.println("");
+ 
+            System.out.println("\nDo you want to continue (Type y or n) \n");
+            ch = scan.next().charAt(0);                        
+        } while (ch == 'Y'|| ch == 'y');
+		
+	}
+}
