@@ -1,0 +1,21 @@
+/*
+* created by VIKAS SINGH
+* on 28 JAN 2016
+* Only method implementation is shown not whole program
+* This works but not efficient as it is O(n2)
+*/
+
+	public boolean isBalanced() {
+		return isBalanced(root);
+	}
+	
+	private boolean isBalanced(Node temp) {
+		if(temp != null) {
+			if(Math.abs(getHeight(temp.left)-getHeight(temp.right))<2 && isBalanced(temp.left) && isBalanced(temp.right))
+				return true;
+			else
+				return false;
+		}
+		
+		return true;
+	}
