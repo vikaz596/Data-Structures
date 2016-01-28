@@ -1,0 +1,35 @@
+/**
+* created by VIKAS SINGH
+* on 28 JAN 2016
+* only method implementationis given not whole program
+* This method time complexity is O(n);
+*/
+
+	public boolean isBalanced() {
+		if(checkHeight(root) == -1)
+			return false;
+		else
+			return true;
+	}
+	
+	private int checkHeight(Node temp) {
+		if(temp==null) // height of null tree
+			return 0;
+			
+		// Check if left subtree is balanced or not
+		int leftHeight = checkHeight(temp.left);
+		if(leftHeight == -1)
+				return -1; // not balanced
+
+		// Check if left subtree is balanced or not
+		int rightHeight = checkHeight(temp.right);
+		if(rightHeight == -1)
+				return -1;  // not balanced
+		
+		// Check if this node itself is balanced
+		if(Math.abs(leftHeight - rightHeight)<2)
+				return max(leftHeight,rightHeight) + 1;
+		
+		else 
+			return -1;	
+	}
