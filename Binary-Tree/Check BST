@@ -8,25 +8,20 @@
 */
 
 	public boolean checkBST() {
-		return checkBST(root);
+		int minimum = Integer.MIN_VALUE;
+		int maximum = Integer.MAX_VALUE;
+		return checkBST(root,minimum,maximum);
 	}
 	
-	private boolean checkBST(Node temp) {
-		if(temp!=null) {
-			if(temp.left==null && temp.right==null)
-				return true;
-			
-			if(temp.left==null && temp.data<temp.right.data)
-				return true;
-			
-			if(temp.right==null && temp.left.data<=temp.data)
-				return true;
-			
-			if(temp.left.data <= temp.data && temp.data < temp.right.data)
-				return true;
-			
-			return false;
-		}
+	private boolean checkBST(Node temp, int minimum, int maximum) {
+		if(temp==null)
+			return true;
 		
-		return false;
+		if(temp.data<=minimum && temp.data>maximum)
+			return false;
+		
+		if(!checkBST(temp.left,minimum,temp.data) || !checkBST(temp.right,temp.data,maximum))
+			return false;
+		
+		return true;
 	}
