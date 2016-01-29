@@ -1,0 +1,32 @@
+/**
+* created by VIKAS SINGH
+* on 29 JAN 2016
+* Only method implementation is given here not whole program
+* Task here is to check if the given tree is BST or not
+* Less space efficient is to traverse inorder and store values in array then check if array is sorted or not
+* But we dont need array only check if given node is more than left child and less than right child 
+*/
+
+	public boolean checkBST() {
+		return checkBST(root);
+	}
+	
+	private boolean checkBST(Node temp) {
+		if(temp!=null) {
+			if(temp.left==null && temp.right==null)
+				return true;
+			
+			if(temp.left==null && temp.data<temp.right.data)
+				return true;
+			
+			if(temp.right==null && temp.left.data<=temp.data)
+				return true;
+			
+			if(temp.left.data <= temp.data && temp.data < temp.right.data)
+				return true;
+			
+			return false;
+		}
+		
+		return false;
+	}
