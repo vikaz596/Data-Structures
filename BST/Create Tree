@@ -1,0 +1,27 @@
+/**
+* created by VIKAS SINGH
+* on 29 JAN 2016
+* Only method implementation is given not whole program
+* Task here is to construct a balanced binary tree from a sorted Array in increasing order
+*/
+
+	public void createTree(int arr[]) {
+		if(arr.length == 0) {
+			root = null;
+			return;
+		}	
+		
+		root = createTree(arr,0,arr.length-1);
+	}
+	
+	public Node createTree(int arr[], int startIndex, int endIndex) {
+		if(startIndex<=endIndex) {
+			int mid = (int)((startIndex + endIndex)/2);
+			Node temp = new Node(arr[mid]);
+		
+			temp.left = createTree(arr, startIndex, mid-1);
+			temp.right = createTree(arr, mid+1,endIndex);
+			return temp;
+		}
+		return null;
+	}
