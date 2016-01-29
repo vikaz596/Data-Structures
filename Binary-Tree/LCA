@@ -1,0 +1,31 @@
+/**
+* created by VIKAS SINGH
+* on 29 JAN 2016
+* Only method implementation is given not whole program
+* Task is to find Lowest Common Ancestor of given 2 Nodes
+*/
+
+	public int LCA(int a, int b) {
+		Node temp = LCA(root,a,b);
+		return temp.data;
+	}
+	
+	private Node LCA(Node temp, int a, int b) { // this method assumes both a and b present in tree
+		if(temp==null)
+			return null;
+		
+		if(temp.data==a || temp.data==b)
+			return temp;
+		
+		Node l = LCA(temp.left,a,b);
+		Node r = LCA(temp.right,a,b);
+		
+		if(l!=null && r!=null)
+			return temp;
+		
+		if(l!=null)
+			return temp.left;
+		
+		if(r!=null)
+			return temp.right;
+	}
